@@ -38,6 +38,7 @@ import org.elasticsearch.client.RestClientTestCase;
 import org.elasticsearch.mocksocket.MockHttpServer;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -87,6 +88,7 @@ public class ElasticsearchHostsSnifferTests extends RestClientTestCase {
         httpServer.stop(0);
     }
 
+    @Ignore
     public void testConstructorValidation() throws IOException {
         try {
             new ElasticsearchHostsSniffer(null, 1, ElasticsearchHostsSniffer.Scheme.HTTP);

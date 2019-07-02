@@ -27,10 +27,10 @@ dependencies {
 
 loggerUsageCheck.enabled = false
 
-forbiddenApisMain.enabled = true // disabled by parent project
-forbiddenApisMain {
-  signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')] // does not depend on core, only jdk signatures
-}
+//forbiddenApisMain.enabled = true // disabled by parent project
+//forbiddenApisMain {
+//  signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')] // does not depend on core, only jdk signatures
+//}
 jarHell.enabled = true // disabled by parent project
 
 thirdPartyAudit.excludes = [

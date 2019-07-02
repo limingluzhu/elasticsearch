@@ -31,7 +31,7 @@ class PrecommitTasks {
     /** Adds a precommit task, which depends on non-test verification tasks. */
     public static Task create(Project project, boolean includeDependencyLicenses) {
         List<Task> precommitTasks = [
-            configureForbiddenApis(project),
+            // configureForbiddenApis(project),
             configureCheckstyle(project),
             configureNamingConventions(project),
             project.tasks.create('forbiddenPatterns', ForbiddenPatternsTask.class),
@@ -72,32 +72,33 @@ class PrecommitTasks {
         return project.tasks.create(precommitOptions)
     }
 
-    private static Task configureForbiddenApis(Project project) {
-        project.pluginManager.apply(ForbiddenApisPlugin.class)
-        project.forbiddenApis {
-            failOnUnsupportedJava = false
-            bundledSignatures = ['jdk-unsafe', 'jdk-deprecated', 'jdk-non-portable', 'jdk-system-out']
-            signaturesURLs = [getClass().getResource('/forbidden/jdk-signatures.txt'),
-                              getClass().getResource('/forbidden/es-all-signatures.txt')]
-            suppressAnnotations = ['**.SuppressForbidden']
-        }
-        Task mainForbidden = project.tasks.findByName('forbiddenApisMain')
-        if (mainForbidden != null) {
-            mainForbidden.configure {
-                signaturesURLs += getClass().getResource('/forbidden/es-core-signatures.txt')
-            }
-        }
-        Task testForbidden = project.tasks.findByName('forbiddenApisTest')
-        if (testForbidden != null) {
-            testForbidden.configure {
-                signaturesURLs += getClass().getResource('/forbidden/es-test-signatures.txt')
-                signaturesURLs += getClass().getResource('/forbidden/http-signatures.txt')
-            }
-        }
-        Task forbiddenApis = project.tasks.findByName('forbiddenApis')
-        forbiddenApis.group = "" // clear group, so this does not show up under verification tasks
-        return forbiddenApis
-    }
+//    private static Task configureForbiddenApis(Project project) {
+//        project.pluginManager.apply(ForbiddenApisPlugin.class)
+//        project.forbiddenApis {
+//            failOnUnsupportedJava = false
+//            bundledSignatures = ['jdk-unsafe', 'jdk-deprecated', 'jdk-non-portable', 'jdk-system-out']
+//            signaturesURLs = [getClass().getResource('/forbidden/jdk-signatures.txt'),
+//                              getClass().getResource('/forbidden/es-all-signatures.txt')]
+//            suppressAnnotations = ['**.SuppressForbidden']
+//        }
+//        Task mainForbidden = project.tasks.findByName('forbiddenApisMain')
+//        if (mainForbidden != null) {
+//            mainForbidden.configure {
+//                signaturesURLs += getClass().getResource('/forbidden/es-core-signatures.txt')
+//            }
+//        }
+//        Task testForbidden = project.tasks.findByName('forbiddenApisTest')
+//        if (testForbidden != null) {
+//            testForbidden.configure {
+//                signaturesURLs += getClass().getResource('/forbidden/es-test-signatures.txt')
+//                signaturesURLs += getClass().getResource('/forbidden/http-signatures.txt')
+//            }
+//        }
+//        Task forbiddenApis = project.tasks.findByName('forbiddenApis')
+//        forbiddenApis.group = "" // clear group, so this does not show up under verification tasks
+//        return forbiddenApis
+//        return null
+//    }
 
     private static Task configureCheckstyle(Project project) {
         // Always copy the checkstyle configuration files to 'buildDir/checkstyle' since the resources could be located in a jar

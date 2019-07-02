@@ -28,6 +28,7 @@ import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
 import org.elasticsearch.mocksocket.MockHttpServer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -76,6 +77,7 @@ public class RestClientBuilderIntegTests extends RestClientTestCase {
         httpsServer = null;
     }
 
+    @Ignore
     public void testBuilderUsesDefaultSSLContext() throws Exception {
         final SSLContext defaultSSLContext = SSLContext.getDefault();
         try {

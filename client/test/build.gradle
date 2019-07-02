@@ -32,21 +32,21 @@ dependencies {
   compile "junit:junit:${versions.junit}"
   compile "org.hamcrest:hamcrest-all:${versions.hamcrest}"
   compile "org.codehaus.mojo:animal-sniffer-annotations:1.15"
-  signature "org.codehaus.mojo.signature:java17:1.0@signature"
+
 }
 
-forbiddenApisMain {
-  //client does not depend on core, so only jdk signatures should be checked
-  signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')]
-}
+//forbiddenApisMain {
+//  //client does not depend on core, so only jdk signatures should be checked
+//  signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')]
+//}
 
-forbiddenApisTest {
-  //we are using jdk-internal instead of jdk-non-portable to allow for com.sun.net.httpserver.* usage
-  bundledSignatures -= 'jdk-non-portable'
-  bundledSignatures += 'jdk-internal'
-  //client does not depend on core, so only jdk signatures should be checked
-  signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')]
-}
+//forbiddenApisTest {
+//  //we are using jdk-internal instead of jdk-non-portable to allow for com.sun.net.httpserver.* usage
+//  bundledSignatures -= 'jdk-non-portable'
+//  bundledSignatures += 'jdk-internal'
+//  //client does not depend on core, so only jdk signatures should be checked
+//  signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')]
+//}
 
 //JarHell is part of es core, which we don't want to pull in
 jarHell.enabled=false

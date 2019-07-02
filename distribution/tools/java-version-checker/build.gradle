@@ -28,13 +28,13 @@ sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
-    signature "org.codehaus.mojo.signature:java16:1.0@signature"
+
 }
 
-forbiddenApisMain {
-    // java-version-checker does not depend on core so only JDK signatures should be checked
-    signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')]
-}
+//forbiddenApisMain {
+//    // java-version-checker does not depend on core so only JDK signatures should be checked
+//    signaturesURLs = [PrecommitTasks.getResource('/forbidden/jdk-signatures.txt')]
+//}
 
 javadoc.enabled = false
 test.enabled = false
