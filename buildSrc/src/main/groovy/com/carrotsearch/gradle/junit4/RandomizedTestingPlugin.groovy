@@ -21,7 +21,7 @@ class RandomizedTestingPlugin implements Plugin<Project> {
         setupSeed(project)
         replaceTestTask(project.tasks)
         configureAnt(project.ant)
-        configureSanityCheck(project)
+        //configureSanityCheck(project)
     }
 
     private static void configureSanityCheck(Project project) {
