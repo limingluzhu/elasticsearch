@@ -21,7 +21,7 @@ import org.elasticsearch.gradle.precommit.PrecommitTasks
 import org.gradle.api.JavaVersion
 
 apply plugin: 'elasticsearch.build'
-apply plugin: 'ru.vyarus.animalsniffer'
+
 
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
@@ -32,7 +32,7 @@ dependencies {
   compile "junit:junit:${versions.junit}"
   compile "org.hamcrest:hamcrest-all:${versions.hamcrest}"
   compile "org.codehaus.mojo:animal-sniffer-annotations:1.15"
-  signature "org.codehaus.mojo.signature:java17:1.0@signature"
+  
 }
 
 forbiddenApisMain {

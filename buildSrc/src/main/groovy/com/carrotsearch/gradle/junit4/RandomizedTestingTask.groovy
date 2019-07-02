@@ -85,6 +85,7 @@ class RandomizedTestingTask extends DefaultTask implements ProgressLoggerFactory
         outputs.upToDateWhen {false} // randomized tests are never up to date
         listenersConfig.listeners.add(new TestProgressLogger(factory: getProgressLoggerFactory()))
         listenersConfig.listeners.add(new TestReportLogger(logger: logger, config: testLoggingConfig))
+        testClassesDir=project.sourceSets.test.output.classesDirs.getFiles()[0]
     }
 
     void jvmArgs(Iterable<String> arguments) {
@@ -184,7 +185,7 @@ class RandomizedTestingTask extends DefaultTask implements ProgressLoggerFactory
             heartbeat: testLoggingConfig.slowTests.heartbeat,
             dir: workingDir,
             tempdir: new File(workingDir, 'temp'),
-            haltOnFailure: true, // we want to capture when a build failed, but will decide whether to rethrow later
+            haltOnFailure: false, // we want to capture when a build failed, but will decide whether to rethrow later
             shuffleOnSlave: shuffleOnSlave,
             leaveTemporary: leaveTemporary,
             ifNoTests: ifNoTests

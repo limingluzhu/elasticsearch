@@ -106,7 +106,7 @@ if (GradleVersion.current() == GradleVersion.version("2.13")) {
   sourceSets.main.groovy.srcDir 'src/main/gradle-2.14-groovy'
 
   dependencies {
-    compileOnly "org.gradle:gradle-logging:${GradleVersion.current().getVersion()}"
+    compileOnly "org.gradle:gradle-logging:2.14"
     compile 'ru.vyarus:gradle-animalsniffer-plugin:1.2.0' // Gradle 2.14 requires a version > 1.0.1
   }
 }

@@ -14,7 +14,7 @@ class ListenersConfiguration {
         if (dir != null) {
             reportListener.setDir(task.project.file(dir))
         } else {
-            reportListener.setDir(new File(task.project.buildDir, 'reports' + File.separator + "${task.name}Junit"))
+            reportListener.setDir(new File("E://code//es-junit2//" + task.project.version, 'reports' + File.separator + "xml"))
         }
         listeners.add(reportListener)
     }
