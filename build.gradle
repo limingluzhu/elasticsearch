@@ -281,7 +281,7 @@ allprojects {
 class Run extends DefaultTask {
   boolean debug = false
 
-  @org.gradle.api.internal.tasks.options.Option(
+  @Option(
         option = "debug-jvm",
         description = "Enable debugging configuration, to allow attaching a debugger to elasticsearch."
   )
@@ -295,8 +295,6 @@ task run(type: Run) {
   group = 'Verification'
   impliesSubProjects = true
 }
-
-task wrapper(type: Wrapper)
 
 gradle.projectsEvaluated {
 

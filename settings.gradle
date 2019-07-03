@@ -12,7 +12,7 @@ List projects = [
   'client:test',
   'client:client-benchmark-noop-api-plugin',
   'client:benchmark',
-  'benchmarks',
+//  'benchmarks',
   'distribution:integ-test-zip',
   'distribution:zip',
   'distribution:tar',

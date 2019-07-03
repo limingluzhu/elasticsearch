@@ -12,7 +12,6 @@ import org.elasticsearch.gradle.ProgressLoggerFactoryInjection
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTreeElement
-import org.gradle.api.internal.tasks.options.Option
 import org.gradle.api.specs.Spec
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
@@ -147,7 +146,7 @@ class RandomizedTestingTask extends DefaultTask implements ProgressLoggerFactory
         ConfigureUtil.configure(closure, listenersConfig)
     }
 
-    @Option(
+    @org.gradle.api.tasks.options.Option(
             option = "tests",
             description = "Sets test class or method name to be included. This is for IDEs. Use -Dtests.class and -Dtests.method"
     )
