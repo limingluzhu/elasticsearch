@@ -219,7 +219,7 @@ class VagrantTestPlugin implements Plugin<Project> {
                 "${project.extensions.esvagrant.batsDir}/utils"
             }
         }
-
+        DefaultProjectDependency
         // Now we iterate over dependencies of the bats configuration. When a project dependency is found,
         // we bring back its own archives, test files or test utils.
         project.afterEvaluate {

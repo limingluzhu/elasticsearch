@@ -8,10 +8,10 @@ import org.apache.tools.ant.BuildException
 import org.apache.tools.ant.DefaultLogger
 import org.apache.tools.ant.RuntimeConfigurable
 import org.apache.tools.ant.UnknownElement
+import org.elasticsearch.gradle.ProgressLoggerFactoryInjection
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTreeElement
-import org.gradle.api.internal.tasks.options.Option
 import org.gradle.api.specs.Spec
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
@@ -19,12 +19,9 @@ import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.util.PatternFilterable
 import org.gradle.api.tasks.util.PatternSet
-import org.gradle.logging.ProgressLoggerFactory
 import org.gradle.util.ConfigureUtil
 
-import javax.inject.Inject
-
-class RandomizedTestingTask extends DefaultTask {
+class RandomizedTestingTask extends DefaultTask implements ProgressLoggerFactoryInjection {
 
     // TODO: change to "executable" to match gradle test params?
     @Optional
@@ -87,11 +84,7 @@ class RandomizedTestingTask extends DefaultTask {
         outputs.upToDateWhen {false} // randomized tests are never up to date
         listenersConfig.listeners.add(new TestProgressLogger(factory: getProgressLoggerFactory()))
         listenersConfig.listeners.add(new TestReportLogger(logger: logger, config: testLoggingConfig))
-    }
-
-    @Inject
-    ProgressLoggerFactory getProgressLoggerFactory() {
-        throw new UnsupportedOperationException();
+        testClassesDir=project.sourceSets.test.output.classesDirs.getFiles()[0]
     }
 
     void jvmArgs(Iterable<String> arguments) {
@@ -153,7 +146,7 @@ class RandomizedTestingTask extends DefaultTask {
         ConfigureUtil.configure(closure, listenersConfig)
     }
 
-    @Option(
+    @org.gradle.api.tasks.options.Option(
             option = "tests",
             description = "Sets test class or method name to be included. This is for IDEs. Use -Dtests.class and -Dtests.method"
     )
@@ -191,7 +184,7 @@ class RandomizedTestingTask extends DefaultTask {
             heartbeat: testLoggingConfig.slowTests.heartbeat,
             dir: workingDir,
             tempdir: new File(workingDir, 'temp'),
-            haltOnFailure: true, // we want to capture when a build failed, but will decide whether to rethrow later
+            haltOnFailure: false, // we want to capture when a build failed, but will decide whether to rethrow later
             shuffleOnSlave: shuffleOnSlave,
             leaveTemporary: leaveTemporary,
             ifNoTests: ifNoTests

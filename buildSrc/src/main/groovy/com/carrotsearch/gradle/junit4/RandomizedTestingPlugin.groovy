@@ -33,8 +33,9 @@ class RandomizedTestingPlugin implements Plugin<Project> {
         ]
         RandomizedTestingTask newTestTask = tasks.create(properties)
         newTestTask.classpath = oldTestTask.classpath
-        newTestTask.testClassesDir = oldTestTask.testClassesDir
+        //newTestTask.testClassesDir = oldTestTask.testClassesDir
 
+        System.out.println("testClassesDir":newTestTask.testClassesDir)
         // hack so check task depends on custom test
         Task checkTask = tasks.findByPath('check')
         checkTask.dependsOn.remove(oldTestTask)
