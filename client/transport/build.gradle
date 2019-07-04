@@ -53,5 +53,5 @@ forbiddenApisTest {
 namingConventions {
   testClass = 'com.carrotsearch.randomizedtesting.RandomizedTest'
   //we don't have integration tests
-  skipIntegTestInDisguise = true
+  skipIntegTestInDisguise = false
 }

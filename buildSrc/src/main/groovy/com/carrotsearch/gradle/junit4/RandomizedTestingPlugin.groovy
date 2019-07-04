@@ -5,8 +5,10 @@ import org.gradle.api.AntBuilder
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.UnknownTaskException
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.TaskContainer
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
 
 class RandomizedTestingPlugin implements Plugin<Project> {
@@ -17,28 +19,35 @@ class RandomizedTestingPlugin implements Plugin<Project> {
     }
 
     static void replaceTestTask(TaskContainer tasks) {
-        Test oldTestTask = tasks.findByPath('test')
+        TaskProvider<Test> oldTestProvider
+        try {
+            oldTestProvider = tasks.named('test')
+        } catch (UnknownTaskException unused) {
+            // no test task, ok, user will use testing task on their own
+            return
+        }
+        Test oldTestTask = oldTestProvider.get()
         if (oldTestTask == null) {
             // no test task, ok, user will use testing task on their own
             return
         }
-        tasks.remove(oldTestTask)
 
-        Map properties = [
-            name: 'test',
-            type: RandomizedTestingTask,
-            dependsOn: oldTestTask.dependsOn,
-            group: JavaBasePlugin.VERIFICATION_GROUP,
-            description: 'Runs unit tests with the randomized testing framework'
-        ]
-        RandomizedTestingTask newTestTask = tasks.create(properties)
-        newTestTask.classpath = oldTestTask.classpath
-        //newTestTask.testClassesDir = oldTestTask.testClassesDir
+        // we still have to use replace here despite the remove above because the task container knows about the provider
+        // by the same name
+        RandomizedTestingTask newTestTask = tasks.replace('test', RandomizedTestingTask)
+        newTestTask.configure{
+            group =  JavaBasePlugin.VERIFICATION_GROUP
+            description = 'Runs unit tests with the randomized testing framework'
+            dependsOn oldTestTask.dependsOn, 'testClasses'
+            classpath = oldTestTask.classpath
+        }
 
-        System.out.println("testClassesDir":newTestTask.testClassesDir)
+
+        System.out.println("testClassesDir": newTestTask.testClassesDir)
         // hack so check task depends on custom test
-        Task checkTask = tasks.findByPath('check')
+        Task checkTask = tasks.getByName('check')
         checkTask.dependsOn.remove(oldTestTask)
+        checkTask.dependsOn.remove(oldTestProvider)
         checkTask.dependsOn.add(newTestTask)
     }
 
